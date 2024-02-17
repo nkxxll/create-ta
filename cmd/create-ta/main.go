@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+    
+    createta "github.com/nkxxll/create-ta"
 )
 
 func main() {
@@ -26,4 +28,6 @@ func main() {
     }
 
     // call the creation
+    ctx := createta.NewCtactx(name)
+    ctx.Create()
 }
