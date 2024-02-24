@@ -6,7 +6,23 @@ import (
 	"os"
 
 	createta "github.com/nkxxll/create-ta"
+	log "github.com/sirupsen/logrus"
 )
+
+func init() {
+	lvl, ok := os.LookupEnv("LOG_LEVEL")
+	// LOG_LEVEL not set, let's default to debug
+	if !ok {
+		lvl = "debug"
+	}
+	// parse string, this is built-in feature of logrus
+	ll, err := log.ParseLevel(lvl)
+	if err != nil {
+		ll = log.DebugLevel
+	}
+	// set global log level
+	log.SetLevel(ll)
+}
 
 func main() {
 	// todo: implement main
@@ -26,11 +42,12 @@ func main() {
 		os.Exit(1)
 	}
 	if newName == "" {
-		fmt.Println("Error: No name for the TA provided")
+		fmt.Println("Error: No new name for the TA provided")
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
 
+	log.Debugf("Args: name: %s, newname: %s, root: %s", name, newName, root)
 	// call the creation
 	tan := createta.Create(name, newName)
 	tan.GenerateNew(root)

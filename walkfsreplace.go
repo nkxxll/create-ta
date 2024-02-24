@@ -3,6 +3,7 @@ package createta
 import (
 	"io/fs"
 	"os"
+	"path/filepath"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
@@ -43,6 +44,7 @@ func (n *TAName) replaceName(path string, dirEntry fs.DirEntry, err error) error
 		log.Infof("Skipping directory %s", path)
 		return nil
 	}
+	log.Infof("Processing file %s", path)
 	// warn if file is very big
 	info, err := dirEntry.Info()
 	if err != nil {
@@ -79,7 +81,7 @@ func (n *TAName) replaceName(path string, dirEntry fs.DirEntry, err error) error
 
 func (n *TAName) GenerateNew(path string) {
 	// walk the directory and replace the name
-	err := fs.WalkDir(os.DirFS(path), path, n.replaceName)
+	err := filepath.WalkDir(path, n.replaceName)
 	if err != nil {
 		log.Warnf("Error walking directory %s: %v", path, err)
 	}
