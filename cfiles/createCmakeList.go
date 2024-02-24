@@ -1,4 +1,4 @@
-package createta
+package cfiles
 
 import (
 	"fmt"

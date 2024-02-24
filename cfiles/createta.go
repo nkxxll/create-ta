@@ -1,4 +1,4 @@
-package createta
+package cfiles
 
 import (
 	"strings"
@@ -25,9 +25,9 @@ func NewCtactx(name string) *Ctactx {
 }
 
 func (ctx *Ctactx) Create() {
-    // call all the template files
-    ctx.WriteAndroid()
-    ctx.WriteCmakeList()
+	// call all the template files
+	ctx.WriteAndroid()
+	ctx.WriteCmakeList()
 }
 
 func cleanup(name string) string {
