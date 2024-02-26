@@ -61,12 +61,18 @@ func (n *TAName) replaceName(path string, dirEntry fs.DirEntry, err error) error
 		return err
 	}
 
+	if strings.Contains(path, n.Lowercase) {
+		os.Rename(path, strings.ReplaceAll(path, n.Lowercase, n.NewLowercase))
+		path = strings.ReplaceAll(path, n.Lowercase, n.NewLowercase)
+		log.Infof("Renamed file %s to %s", path, strings.ReplaceAll(path, n.Lowercase, n.NewLowercase))
+	}
+
 	sdata := string(data)
 
-	sdata = strings.Replace(sdata, n.Uppercase, n.NewUppercase, -1)
-	sdata = strings.Replace(sdata, n.Lowercase, n.NewLowercase, -1)
-	if strings.Index(sdata, "UUID") != -1 {
-		log.Infof("The UUID is in file %s.", path)
+	sdata = strings.ReplaceAll(sdata, n.Uppercase, n.NewUppercase)
+	sdata = strings.ReplaceAll(sdata, n.Lowercase, n.NewLowercase)
+	if strings.Contains(sdata, "UUID") {
+		log.Infof("The UUID could be in file %s.", path)
 	}
 
 	// write back to the file
